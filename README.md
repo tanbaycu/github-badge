@@ -88,13 +88,14 @@ npm run hunt:max
 
 ## 🎯 Danh sách các huy hiệu hỗ trợ
 
-| Huy hiệu | Tên | Yêu cầu GitHub | Cách tool tự động xử lý |
+| Huy hiệu | Tên huy hiệu | Yêu cầu GitHub | Cách tool tự động xử lý |
 | :---: | :--- | :--- | :--- |
-| 🦈 | **Pull Shark** | Merge 2 / 16 / 128 / 1024 PRs | Tự tạo nhánh, tạo commit và auto-merge vào `main`. |
-| 🧠 | **Galaxy Brain** | 2 / 8 / 16 / 32 câu trả lời được Accept | Dùng nick phụ tạo câu hỏi Q&A, nick chính trả lời, nick phụ bấm Accept. |
-| 🤠 | **Quickdraw** | Đóng Issue/PR trong < 5 phút | Mở Issue và tự động close ngay trong vòng 2 giây. |
-| 🚀 | **YOLO** | Merge PR mà không review | Mở PR trên nhánh phụ và merge thẳng mà không qua review. |
-| 👯 | **Pair Extraordinaire** | Đồng tác giả trong 1 PR | Gắn thẻ `Co-authored-by` vào commit message và merge PR. |
+| <img src="src/web/public/badges/pull-shark-gold.png" width="56" alt="Pull Shark"> | **Pull Shark**<br>*(Cấp Vàng / Bạc)* | Merge 2 / 16 / 128 / 1024 PRs | Tự động tạo nhánh, commit ledger và auto-merge an toàn vào `main`. |
+| <img src="src/web/public/badges/galaxy-brain-gold.png" width="56" alt="Galaxy Brain"> | **Galaxy Brain**<br>*(Cấp Vàng x4)* | 2 / 8 / 16 / 32 câu trả lời được Accept | Chu trình Dual-Token: Nick phụ hỏi $\rightarrow$ Nick chính trả lời $\rightarrow$ Nick phụ bấm Accept. |
+| <img src="src/web/public/badges/quickdraw.png" width="56" alt="Quickdraw"> | **Quickdraw** | Đóng Issue hoặc PR trong < 5 phút | Tự động mở Issue và close ngay tức thì trong vòng 2 giây. |
+| <img src="src/web/public/badges/yolo.png" width="56" alt="YOLO"> | **YOLO** | Merge PR mà không qua review | Mở PR trên nhánh phụ và merge thẳng mà không cần code review. |
+| <img src="src/web/public/badges/pair-extraordinaire.png" width="56" alt="Pair Extraordinaire"> | **Pair Extraordinaire** | Đồng tác giả trong 1 PR | Gắn thẻ `Co-authored-by` vào commit message và merge PR. |
+| <img src="src/web/public/badges/starstruck-gold.png" width="56" alt="Starstruck"> | **Starstruck**<br>*(Cấp Vàng)* | Repo đạt 16 / 128 / 512 Stars | Hỗ trợ điều phối tương tác repo và cộng đồng nhận Star. |
 
 ---
 
