@@ -1,0 +1,43 @@
+{
+  "name": "gittrophy",
+  "version": "1.0.0",
+  "description": "Autonomous GitHub Trophy & Badge Hunter Engine",
+  "main": "dist/index.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "tsx src/cli/index.ts",
+    "hunt": "tsx src/cli/index.ts",
+    "cli": "tsx src/cli/index.ts",
+    "hunt:shark": "tsx src/index.ts --vector shark",
+    "hunt:galaxy": "tsx src/index.ts --vector galaxy",
+    "hunt:recon": "tsx src/index.ts --recon",
+    "hunt:quickdraw": "tsx src/index.ts --vector quickdraw",
+    "hunt:yolo": "tsx src/index.ts --vector yolo",
+    "hunt:pair": "tsx src/index.ts --vector pair",
+    "web": "tsx src/web/server.ts",
+    "dev": "tsx src/web/server.ts"
+  },
+  "keywords": [
+    "github",
+    "achievements",
+    "badges",
+    "pull-shark",
+    "galaxy-brain",
+    "quickdraw",
+    "yolo"
+  ],
+  "author": "tanbaycu",
+  "license": "MIT",
+  "dependencies": {
+    "@clack/prompts": "^1.8.1",
+    "dotenv": "^16.4.7",
+    "express": "^4.21.2",
+    "picocolors": "^1.1.1"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/node": "^22.10.1",
+    "tsx": "^4.19.2",
+    "typescript": "^5.7.2"
+  }
+}

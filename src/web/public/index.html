@@ -1,0 +1,957 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>GitTrophy Sentinel — Autonomous GitHub Achievement Cockpit</title>
+  <meta name="description" content="Autonomous GitHub Achievement Engine & Trophy Vault. Clean Linear-style header, Flat Official Badges, Typeform setup wizard, and standalone SSE terminal.">
+  
+  <!-- Typography: Geist, Geist Mono, JetBrains Mono, Caveat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Geist:wght@300;400;500;600;700;800&family=Geist+Mono:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500;600&family=Caveat:wght@400;600;700&display=swap" rel="stylesheet">
+  
+  <!-- Phosphor Duotone Icons -->
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/duotone/style.css" />
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/bold/style.css" />
+  <link rel="stylesheet" type="text/css" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css" />
+
+  <link rel="stylesheet" href="styles.css?v=2.9.2">
+</head>
+<body class="loading-state">
+
+  <!-- ====================================================================
+       MODERN AMBIENT SKELETON LAYER (Linear-style Ambient Shimmer)
+       ==================================================================== -->
+  <div class="global-skeleton-layer" id="global-skeleton">
+    <div class="sk-pulse-bar"></div>
+    <div class="sk-container">
+      <!-- Skeleton Header -->
+      <div class="sk-header-row">
+        <div class="sk-brand shimmer"></div>
+        <div class="sk-nav-group">
+          <div class="sk-pill shimmer" style="width: 60px;"></div>
+          <div class="sk-pill shimmer" style="width: 84px;"></div>
+          <div class="sk-pill shimmer" style="width: 74px;"></div>
+        </div>
+        <div class="sk-actions-group">
+          <div class="sk-pill shimmer" style="width: 64px; height: 28px;"></div>
+          <div class="sk-circle shimmer" style="width: 28px; height: 28px;"></div>
+        </div>
+      </div>
+
+      <!-- Skeleton Hero Card -->
+      <div class="sk-hero-card">
+        <div class="sk-hero-canvas">
+          <div class="sk-profile-block">
+            <div class="sk-avatar shimmer"></div>
+            <div class="sk-lines">
+              <div class="sk-line shimmer" style="width: 150px; height: 18px;"></div>
+              <div class="sk-line shimmer" style="width: 280px; height: 12px; margin-top: 6px;"></div>
+            </div>
+          </div>
+          <div class="sk-iso-box shimmer"></div>
+        </div>
+        <div class="sk-action-strip">
+          <div class="sk-pill shimmer" style="width: 104px;"></div>
+          <div class="sk-pill shimmer" style="width: 72px;"></div>
+          <div class="sk-pill shimmer" style="width: 96px;"></div>
+          <div class="sk-pill shimmer" style="width: 96px;"></div>
+        </div>
+        <div class="sk-metrics-row">
+          <div class="sk-m-card shimmer"></div>
+          <div class="sk-m-card shimmer"></div>
+          <div class="sk-m-card shimmer"></div>
+          <div class="sk-m-card shimmer"></div>
+        </div>
+      </div>
+
+      <!-- Skeleton Cockpit Block -->
+      <div class="sk-cockpit-block shimmer"></div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+  <!-- ====================================================================
+       TEXT-FIRST NATURAL HEADER (No sticky/fixed, pure typography, no borders)
+       Lướt lên trên cùng mới thấy, không viền ngang, thuần chữ thanh lịch
+       ==================================================================== -->
+  <header class="text-header">
+    <div class="text-header-inner">
+      
+      <!-- LEFT: Pure Text Brand -->
+      <div class="header-brand-wrap">
+        <a href="/" class="text-brand">
+          <span class="text-brand-title mono">GitTrophy</span>
+          <span class="text-brand-sub mono">v2.5</span>
+        </a>
+      </div>
+
+      <!-- CENTER: Pure Text Navigation Links (No // prefixes) -->
+      <nav class="text-header-nav mono">
+        <a href="#cockpit" class="text-nav-link">Cockpit</a>
+        <a href="#terminal-section" class="text-nav-link">Terminal</a>
+        <a href="#badges-showcase" class="text-nav-link">Vault</a>
+      </nav>
+
+      <!-- RIGHT: Pure Text Setup & Avatar -->
+      <div class="text-header-actions mono">
+        <a href="javascript:void(0)" onclick="openWizard()" class="text-setup-link">Setup</a>
+        <a href="https://github.com/tanbaycu" target="_blank" rel="noreferrer" class="text-avatar-link" title="GitHub @tanbaycu">
+          <img id="hdr-avatar" src="https://avatars.githubusercontent.com/u/166855109?v=4" alt="tanbaycu" class="header-avatar-img">
+        </a>
+      </div>
+
+    </div>
+  </header>
+
+  <main class="page-container">
+
+    <!-- ====================================================================
+         HERO SECTION: Blueprint Grid + Identity Profile
+         ==================================================================== -->
+    <section class="blueprint-hero" id="overview">
+      <div class="blueprint-canvas">
+        
+        <!-- Interactive 3D Isometric Chamber (Fig 1) -->
+        <div class="isometric-chamber" id="iso-scene" onclick="playClickSound()">
+          <svg class="chamber-svg" viewBox="0 0 640 340" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <defs>
+              <pattern id="diag-hatch" width="6" height="6" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="0" x2="0" y2="6" stroke="#94a3b8" stroke-width="0.8" opacity="0.6"/>
+              </pattern>
+              <pattern id="diag-hatch-dense" width="4" height="4" patternTransform="rotate(45 0 0)" patternUnits="userSpaceOnUse">
+                <line x1="0" y1="0" x2="0" y2="4" stroke="#64748b" stroke-width="0.8" opacity="0.7"/>
+              </pattern>
+            </defs>
+
+            <!-- Blueprint guide grid -->
+            <path d="M 40 40 L 600 300 M 40 300 L 600 40 M 320 20 L 320 320" stroke="#f1f5f9" stroke-width="1" stroke-dasharray="4 4"/>
+
+            <!-- Top Isometric Ring / Chamber -->
+            <g class="iso-box-top" transform="translate(180, 20)">
+              <polygon points="140,20 280,100 140,180 0,100" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+              <polygon points="140,65 210,105 140,145 70,105" fill="url(#diag-hatch)" stroke="#0f172a" stroke-width="1.2"/>
+              <polygon points="280,100 280,140 140,220 140,180" fill="#f8fafc" stroke="#0f172a" stroke-width="1.2"/>
+              <polygon points="140,180 140,220 0,140 0,100" fill="#e2e8f0" stroke="#0f172a" stroke-width="1.2"/>
+            </g>
+
+            <!-- Middle Isometric Stepped Block -->
+            <g class="iso-box-mid" transform="translate(60, 110)">
+              <polygon points="90,10 180,60 90,110 0,60" fill="url(#diag-hatch-dense)" stroke="#0f172a" stroke-width="1.2"/>
+              <polygon points="180,60 180,95 90,145 90,110" fill="#f8fafc" stroke="#0f172a" stroke-width="1.2"/>
+              <polygon points="90,110 90,145 0,95 0,60" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.2"/>
+            </g>
+
+            <!-- Lower Isometric Block -->
+            <g class="iso-box-bottom" transform="translate(130, 160)">
+              <polygon points="110,15 220,75 110,135 0,75" fill="#ffffff" stroke="#0f172a" stroke-width="1.2"/>
+              <polygon points="220,75 220,115 110,175 110,135" fill="#f1f5f9" stroke="#0f172a" stroke-width="1.2"/>
+              <polygon points="110,135 110,175 0,115 0,75" fill="#cbd5e1" stroke="#0f172a" stroke-width="1.2"/>
+            </g>
+
+            <text x="560" y="270" font-family="'Geist Mono', monospace" font-size="11" fill="#94a3b8">Fig. 1. Chamber</text>
+          </svg>
+        </div>
+
+        <!-- Identity / Profile Box -->
+        <div class="hero-profile-card">
+          <div class="profile-layout">
+            <div class="avatar-frame">
+              <img id="profile-avatar" src="https://avatars.githubusercontent.com/u/166855109?v=4" alt="Avatar" class="avatar-img">
+            </div>
+
+            <div class="profile-meta">
+              <div class="profile-name-row">
+                <h1 class="profile-name" id="profile-name">Tran Minh Tan</h1>
+                <span class="verified-pill" title="Verified GitHub Trophy Hunter Engine">
+                  <i class="ph-duotone ph-seal-check"></i>
+                </span>
+                <button class="speaker-btn" onclick="playClickSound()" title="Phát âm thanh synthesizer">
+                  <i class="ph-duotone ph-speaker-high"></i>
+                </button>
+              </div>
+              <p class="profile-tagline mono" id="profile-tagline">Autonomous GitHub Achievement &amp; Trophy Hunter Suite.</p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Action Strip (CLEAN, NO OVERLAPPING TEXT) -->
+      <div class="hero-action-strip">
+        <div class="action-strip-buttons">
+          <button class="strip-btn" onclick="openWizard()" title="Chạy Typeform Setup Wizard">
+            <i class="ph-duotone ph-sparkle"></i>
+            <span class="mono">Setup Wizard</span>
+          </button>
+          <button class="strip-btn" onclick="scrollToSection('cockpit')" title="Cockpit Control">
+            <i class="ph-duotone ph-crosshair"></i>
+            <span class="mono">Cockpit</span>
+          </button>
+          <button class="strip-btn" onclick="scrollToSection('terminal-section')" title="Live Stream">
+            <i class="ph-duotone ph-terminal"></i>
+            <span class="mono">Live Terminal</span>
+          </button>
+          <button class="strip-btn" onclick="scrollToSection('badges-showcase')" title="GitHub Badges">
+            <i class="ph-duotone ph-trophy"></i>
+            <span class="mono">Trophy Vault</span>
+          </button>
+          <button class="strip-btn" onclick="openConfigModal()" title="Cấu hình Token .env">
+            <i class="ph-duotone ph-sliders"></i>
+            <span class="mono">.env Config</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- FlowNumber HUD Metric Tiles -->
+      <div class="hud-metrics-row">
+        <div class="hud-card">
+          <div class="hud-card-head">
+            <span class="hud-card-label mono">PULL SHARK MERGES</span>
+            <i class="ph-duotone ph-git-pull-request hud-card-icon"></i>
+          </div>
+          <div class="hud-card-value mono">
+            <span class="flownumber" id="fn-current-prs">128</span>
+            <span class="hud-slash">/</span>
+            <span class="flownumber" id="fn-target-prs">1,024</span>
+          </div>
+          <div class="hud-card-sub mono">Silver x3 ➔ Gold Tier x4</div>
+        </div>
+
+        <div class="hud-card">
+          <div class="hud-card-head">
+            <span class="hud-card-label mono">REMAINING TO GOLD</span>
+            <i class="ph-duotone ph-crosshair hud-card-icon"></i>
+          </div>
+          <div class="hud-card-value mono">
+            <span class="flownumber" id="fn-remaining-prs">896</span>
+            <span class="hud-unit">PRs</span>
+          </div>
+          <div class="hud-card-sub mono">Auto-merging ready</div>
+        </div>
+
+        <div class="hud-card">
+          <div class="hud-card-head">
+            <span class="hud-card-label mono">MERGE VELOCITY</span>
+            <i class="ph-duotone ph-lightning hud-card-icon"></i>
+          </div>
+          <div class="hud-card-value mono">
+            <span class="flownumber" id="fn-velocity">2.4</span>
+            <span class="hud-unit">s / PR</span>
+          </div>
+          <div class="hud-card-sub mono">Zero network thrashing</div>
+        </div>
+
+        <div class="hud-card">
+          <div class="hud-card-head">
+            <span class="hud-card-label mono">RATE-LIMIT BUDGET</span>
+            <i class="ph-duotone ph-shield-check hud-card-icon"></i>
+          </div>
+          <div class="hud-card-value mono">
+            <span class="flownumber" id="fn-rate-margin">4,872</span>
+            <span class="hud-slash">/</span>
+            <span>5,000</span>
+          </div>
+          <div class="hud-card-sub mono">Adaptive backoff active</div>
+        </div>
+      </div>
+
+      <!-- Identity Data Matrix -->
+      <div class="identity-specs-matrix">
+        <div class="spec-tile">
+          <i class="ph-duotone ph-user spec-icon"></i>
+          <span class="spec-label mono">Target Account</span>
+          <strong class="spec-val mono" id="info-target-login">@tanbaycu</strong>
+        </div>
+
+        <div class="spec-tile">
+          <i class="ph-duotone ph-users spec-icon"></i>
+          <span class="spec-label mono">Helper Clone</span>
+          <span class="spec-val mono" id="info-clone-status">Dual-Token Active (Bypass Filters)</span>
+        </div>
+
+        <div class="spec-tile">
+          <i class="ph-duotone ph-git-branch spec-icon"></i>
+          <span class="spec-label mono">Target Vault</span>
+          <span class="spec-val mono" id="info-repo">github-trophy-vault</span>
+        </div>
+
+        <div class="spec-tile">
+          <i class="ph-duotone ph-key spec-icon"></i>
+          <span class="spec-label mono">Auth Token</span>
+          <span class="spec-val mono" id="info-token-status">ghp_•••••••• (Valid)</span>
+        </div>
+
+        <div class="spec-tile">
+          <i class="ph-duotone ph-clock spec-icon"></i>
+          <span class="spec-label mono">Local Time</span>
+          <span class="spec-val mono" id="info-local-time">--:--:-- (active)</span>
+        </div>
+
+        <div class="spec-tile">
+          <i class="ph-duotone ph-sparkle spec-icon"></i>
+          <span class="spec-label mono">Engine Status</span>
+          <span class="spec-val mono">Online &amp; Throttled</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 01: COMMAND COCKPIT (FULL-WIDTH DEDICATED SECTION)
+         Separated completely from Terminal Deck as requested.
+         ==================================================================== -->
+    <section class="content-block" id="cockpit">
+      <div class="block-tag-row">
+        <span class="block-tag-num mono">01 Command Cockpit</span>
+        <div class="block-pills">
+          <span class="b-pill mono"><i class="ph-duotone ph-cpu"></i> Automated Engine</span>
+          <span class="b-pill mono"><i class="ph-duotone ph-arrows-split"></i> Dual-Token Bypass</span>
+          <span class="b-pill mono"><i class="ph-duotone ph-shield-check"></i> Anti-Spam Safe</span>
+        </div>
+      </div>
+
+      <div class="cockpit-full-card">
+        <article class="controller-card" id="card-shark">
+          
+          <div class="ctrl-header">
+            <div class="ctrl-brand">
+              <div class="badge-hero-wrapper" onclick="inspectBadge('shark')" title="Chi tiết Pull Shark">
+                <img src="/badges/pull-shark-gold.png" alt="Pull Shark Gold" class="badge-hero-img">
+              </div>
+              <div class="ctrl-titles">
+                <div class="ctrl-title-row">
+                  <h3 class="ctrl-title">Pull Shark Gold Hunter</h3>
+                  <span class="gold-tag mono">GOLD TIER x4</span>
+                </div>
+                <p class="ctrl-subtitle mono">Cross-Repository Continuous Auto-Merge Engine • Silver x3 Hiện Có ➔ Đang cày lên Gold x4</p>
+              </div>
+            </div>
+
+            <div class="target-chip mono">
+              <span class="chip-dot"></span>
+              <span>MỤC TIÊU: 1,024 PRs</span>
+            </div>
+          </div>
+
+          <!-- Dynamic Progress Meter -->
+          <div class="meter-box">
+            <div class="meter-top mono">
+              <span>TIẾN ĐỘ THÀNH TÍCH CÁ MẬP VÀNG</span>
+              <span class="meter-percentage"><strong id="fn-progress-pct">12.5</strong>%</span>
+            </div>
+            <div class="meter-rail">
+              <div class="meter-bar" id="meter-fill-bar" style="width: 12.5%;"></div>
+            </div>
+            <div class="meter-sub mono">
+              <span>Đã hoàn thành: <strong id="fn-meter-cur">128</strong> PRs</span>
+              <span>Còn lại: <strong id="shark-remaining-text">896 PRs</strong> để chạm mốc Gold</span>
+            </div>
+          </div>
+
+          <!-- Stepper Controller & Presets -->
+          <div class="control-row">
+            <div class="stepper-wrap">
+              <span class="stepper-tag mono">HẠN NGẠCH CÀY THÊM (QUOTA):</span>
+              <div class="stepper-controls">
+                <button class="step-btn mono" onclick="adjustQuota(-50)" title="Giảm 50 PRs">
+                  <i class="ph-bold ph-minus"></i>
+                </button>
+                <input type="number" id="input-quota" value="896" min="1" max="1024" class="stepper-field mono">
+                <button class="step-btn mono" onclick="adjustQuota(50)" title="Tăng 50 PRs">
+                  <i class="ph-bold ph-plus"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- Quick Presets -->
+            <div class="presets-wrap">
+              <span class="preset-tag mono">Đặt nhanh:</span>
+              <button class="p-btn mono" onclick="setQuotaPreset(50)">+50</button>
+              <button class="p-btn mono" onclick="setQuotaPreset(100)">+100</button>
+              <button class="p-btn mono" onclick="setQuotaPreset(256)">+256</button>
+              <button class="p-btn mono active" onclick="setQuotaPreset(896)">Cán Mốc Vàng (896)</button>
+            </div>
+          </div>
+
+          <!-- Safeguard Tags -->
+          <div class="safeguard-tags">
+            <span class="sg-tag mono"><i class="ph-duotone ph-arrows-split"></i> Dual-Token Helper Active</span>
+            <span class="sg-tag mono"><i class="ph-duotone ph-shield-check"></i> Anti-Bot Pattern Bypass</span>
+            <span class="sg-tag mono"><i class="ph-duotone ph-git-merge"></i> Auto Squash-Merge RFC</span>
+            <span class="sg-tag mono"><i class="ph-duotone ph-timer"></i> 2.4s Throttling Protection</span>
+          </div>
+
+          <!-- Primary Action Bar -->
+          <div class="ctrl-action-bar">
+            <button class="btn-hunt-launch" id="start-btn" onclick="triggerHarvest()">
+              <i class="ph-bold ph-play"></i>
+              <span id="start-btn-text">KÍCH HOẠT CHIẾN DỊCH PULL SHARK VÀNG</span>
+            </button>
+            <button class="btn-hunt-halt" id="stop-btn" onclick="stopHarvest()" style="display: none;">
+              <i class="ph-bold ph-stop"></i>
+              <span>DỪNG CHIẾN DỊCH</span>
+            </button>
+          </div>
+
+        </article>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 02: STANDALONE LIVE TERMINAL DECK (SEPARATE FULL-WIDTH SECTION)
+         Dedicated live log stream for live-engine-sse.log
+         ==================================================================== -->
+    <!-- ====================================================================
+         SECTION 02: SUPERCHARGED DEVELOPER TERMINAL DECK
+         Dedicated live log stream for live-engine-sse.log with Hacker/Warp styling
+         ==================================================================== -->
+    <section class="content-block" id="terminal-section">
+      <div class="block-tag-row">
+        <span class="block-tag-num mono">02 Live Terminal Stream</span>
+        <div class="block-pills">
+          <span class="b-pill mono"><i class="ph-duotone ph-terminal"></i> live-engine-sse.log</span>
+          <span class="b-pill mono"><i class="ph-duotone ph-broadcast"></i> SSE Realtime Socket</span>
+          <span class="b-pill mono"><i class="ph-duotone ph-check-circle"></i> Auto-Reconnecting</span>
+        </div>
+      </div>
+
+      <div class="terminal-deck-component" id="terminal-component">
+        <!-- Terminal Titlebar Header -->
+        <div class="terminal-deck-bar">
+          <div class="deck-bar-left">
+            <div class="window-dots" title="macOS Window Controls">
+              <span class="w-dot red"></span>
+              <span class="w-dot yellow"></span>
+              <span class="w-dot green"></span>
+            </div>
+            <div class="deck-file-tab mono">
+              <i class="ph-duotone ph-terminal-window"></i>
+              <span>live-engine-sse.log</span>
+              <span class="term-pulse-led" title="SSE Streaming Active"></span>
+            </div>
+            <span class="term-session-badge mono">PORT: 3456</span>
+          </div>
+
+          <div class="deck-bar-center">
+            <div class="log-filter-tabs">
+              <button class="tab-filter active mono" data-filter="all" onclick="filterLogs('all')">
+                <i class="ph-bold ph-list-dashes"></i> ALL
+              </button>
+              <button class="tab-filter mono filter-ok" data-filter="ok" onclick="filterLogs('ok')">
+                <i class="ph-bold ph-check-circle"></i> MERGED
+              </button>
+              <button class="tab-filter mono filter-info" data-filter="info" onclick="filterLogs('info')">
+                <i class="ph-bold ph-info"></i> INFO
+              </button>
+              <button class="tab-filter mono filter-error" data-filter="error" onclick="filterLogs('error')">
+                <i class="ph-bold ph-warning-circle"></i> ERRORS
+              </button>
+            </div>
+          </div>
+
+          <div class="deck-bar-right">
+            <button class="tool-btn mono active" id="autoscroll-btn" onclick="toggleAutoScroll()" title="Tự động cuộn theo log mới">
+              <i class="ph-duotone ph-arrows-down-up"></i>
+            </button>
+            <button class="tool-btn mono" onclick="copyLogs()" title="Sao chép toàn bộ logs">
+              <i class="ph-duotone ph-copy"></i>
+            </button>
+            <button class="tool-btn mono" onclick="downloadLogs()" title="Tải xuống file log (.log)">
+              <i class="ph-duotone ph-download-simple"></i>
+            </button>
+            <button class="tool-btn mono" onclick="clearLogs()" title="Xóa màn hình log">
+              <i class="ph-duotone ph-trash"></i>
+            </button>
+          </div>
+        </div>
+
+        <!-- Terminal Output Stream Screen -->
+        <div class="terminal-deck-console" id="term-logs">
+          <div class="console-line info" data-level="info">
+            <span class="console-time mono">[SYSTEM]</span>
+            <span class="console-tag mono sys">[INIT]</span>
+            <span class="console-msg mono">GitTrophy Sentinel Live Terminal component initialized. SSE Stream ready.</span>
+          </div>
+        </div>
+
+        <!-- Terminal Interactive Prompt at Bottom -->
+        <div class="terminal-cli-prompt mono">
+          <span class="prompt-host">sentinel@gittrophy</span>:<span class="prompt-path">~/engine</span>$ <span class="term-cursor">▋</span>
+        </div>
+
+        <!-- Terminal Statusline Strip (Tmux / Vim style) -->
+        <div class="terminal-deck-status mono">
+          <div class="status-stream-state">
+            <span class="stream-beacon"></span>
+            <span id="term-status-pill">SSE STREAM • ACTIVE</span>
+          </div>
+          <div class="status-stats">
+            <span id="term-lines-count">1 LINES</span>
+            <span class="pipe">|</span>
+            <span id="term-rate-stat">0 PR/s</span>
+            <span class="pipe">|</span>
+            <span class="term-buffer-pill">BUFFER: 100% OK</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ====================================================================
+         SECTION 03: OFFICIAL GITHUB BADGES SHOWCASE
+         Clean Flat Design (NO annoying 3D bouncings), accurately separating
+         UNLOCKED (Active/Owned) vs LOCKED (Not Owned) badges.
+         ==================================================================== -->
+    <section class="content-block" id="badges-showcase">
+      <div class="block-tag-row">
+        <span class="block-tag-num mono">03 Trophy Vault</span>
+        <div class="block-pills">
+          <span class="b-pill mono"><i class="ph-duotone ph-trophy"></i> drknzz/GitHub-Achievements</span>
+          <span class="b-pill mono"><i class="ph-duotone ph-seal-check"></i> Official Badges</span>
+          <span class="b-pill mono"><i class="ph-duotone ph-check-circle"></i> Accurate Tiers</span>
+        </div>
+      </div>
+
+      <div class="section-title-wrap">
+        <div>
+          <h2 class="section-main-title">GitHub Trophy &amp; Badge Vault</h2>
+          <span class="section-hint-note mono">Hiển thị chính xác các huy hiệu đã mở khóa và các huy hiệu chưa sở hữu.</span>
+        </div>
+
+        <!-- Trophy Category Filters -->
+        <div class="trophy-filter-bar">
+          <button class="t-filter-btn active mono" data-cat="all" onclick="filterTrophies('all')">TẤT CẢ (9)</button>
+          <button class="t-filter-btn mono" data-cat="unlocked" onclick="filterTrophies('unlocked')">ĐÃ MỞ KHÓA (6)</button>
+          <button class="t-filter-btn mono" data-cat="locked" onclick="filterTrophies('locked')">CHƯA CÓ (3)</button>
+        </div>
+      </div>
+
+      <!-- Flat Clean Badges Grid -->
+      <div class="trophy-cards-grid">
+        
+        <!-- 1. Pull Shark (Unlocked: Silver x3, Hunter for Gold x4) -->
+        <div class="trophy-item-card is-unlocked active" data-cat="unlocked" onclick="inspectBadge('shark')">
+          <div class="trophy-flat-asset-box">
+            <img src="/badges/pull-shark-gold.png" alt="Pull Shark" class="trophy-flat-img">
+            <span class="status-indicator-tag unlocked mono">ĐÃ CÓ (SILVER x3)</span>
+          </div>
+          <div class="trophy-meta">
+            <h4 class="trophy-name">Pull Shark</h4>
+            <span class="tier-pill gold mono">Đang săn Gold x4</span>
+            <p class="trophy-status-text mono">128 / 1,024 Merged PRs</p>
+          </div>
+          <div class="trophy-bottom-chip">
+            <span class="badge-chip hunting mono">CẦN 896 PRs ĐỂ LÊN VÀNG</span>
+          </div>
+        </div>
+
+        <!-- 2. Galaxy Brain Gold (Unlocked: Gold x4) -->
+        <div class="trophy-item-card is-unlocked" data-cat="unlocked" onclick="inspectBadge('galaxy')">
+          <div class="trophy-flat-asset-box">
+            <img src="/badges/galaxy-brain-gold.png" alt="Galaxy Brain Gold" class="trophy-flat-img">
+            <span class="status-indicator-tag unlocked mono">ĐÃ MỞ KHÓA</span>
+          </div>
+          <div class="trophy-meta">
+            <h4 class="trophy-name">Galaxy Brain</h4>
+            <span class="tier-pill gold mono">Gold Tier x4</span>
+            <p class="trophy-status-text mono">32 / 32 Accepted Answers</p>
+          </div>
+          <div class="trophy-bottom-chip">
+            <span class="badge-chip unlocked mono">ĐẠT CẤP TỐI ĐA</span>
+          </div>
+        </div>
+
+        <!-- 3. Pair Extraordinaire (Unlocked: Tier x3) -->
+        <div class="trophy-item-card is-unlocked" data-cat="unlocked" onclick="inspectBadge('pair')">
+          <div class="trophy-flat-asset-box">
+            <img src="/badges/pair-extraordinaire.png" alt="Pair Extraordinaire" class="trophy-flat-img">
+            <span class="status-indicator-tag unlocked mono">ĐÃ MỞ KHÓA</span>
+          </div>
+          <div class="trophy-meta">
+            <h4 class="trophy-name">Pair Extraordinaire</h4>
+            <span class="tier-pill green mono">Tier x3 Co-Author</span>
+            <p class="trophy-status-text mono">16 / 16 Co-authored PRs</p>
+          </div>
+          <div class="trophy-bottom-chip">
+            <span class="badge-chip unlocked mono">ĐÃ SỞ HỮU</span>
+          </div>
+        </div>
+
+        <!-- 4. Quickdraw (Unlocked) -->
+        <div class="trophy-item-card is-unlocked" data-cat="unlocked" onclick="inspectBadge('quickdraw')">
+          <div class="trophy-flat-asset-box">
+            <img src="/badges/quickdraw.png" alt="Quickdraw" class="trophy-flat-img">
+            <span class="status-indicator-tag unlocked mono">ĐÃ MỞ KHÓA</span>
+          </div>
+          <div class="trophy-meta">
+            <h4 class="trophy-name">Quickdraw</h4>
+            <span class="tier-pill yellow mono">Lightning Fast</span>
+            <p class="trophy-status-text mono">Close PR ≤ 5 minutes</p>
+          </div>
+          <div class="trophy-bottom-chip">
+            <span class="badge-chip unlocked mono">ĐÃ SỞ HỮU</span>
+          </div>
+        </div>
+
+        <!-- 5. YOLO (Unlocked) -->
+        <div class="trophy-item-card is-unlocked" data-cat="unlocked" onclick="inspectBadge('yolo')">
+          <div class="trophy-flat-asset-box">
+            <img src="/badges/yolo.png" alt="YOLO" class="trophy-flat-img">
+            <span class="status-indicator-tag unlocked mono">ĐÃ MỞ KHÓA</span>
+          </div>
+          <div class="trophy-meta">
+            <h4 class="trophy-name">YOLO</h4>
+            <span class="tier-pill pink mono">No Review Merge</span>
+            <p class="trophy-status-text mono">Direct squash merge</p>
+          </div>
+          <div class="trophy-bottom-chip">
+            <span class="badge-chip unlocked mono">ĐÃ SỞ HỮU</span>
+          </div>
+        </div>
+
+        <!-- 6. Starstruck Gold (Unlocked: Gold x4) -->
+        <div class="trophy-item-card is-unlocked" data-cat="unlocked" onclick="inspectBadge('starstruck')">
+          <div class="trophy-flat-asset-box">
+            <img src="/badges/starstruck-gold.png" alt="Starstruck Gold" class="trophy-flat-img">
+            <span class="status-indicator-tag unlocked mono">ĐÃ MỞ KHÓA</span>
+          </div>
+          <div class="trophy-meta">
+            <h4 class="trophy-name">Starstruck</h4>
+            <span class="tier-pill gold mono">Gold Tier x4</span>
+            <p class="trophy-status-text mono">Star Spike Acceleration</p>
+          </div>
+          <div class="trophy-bottom-chip">
+            <span class="badge-chip unlocked mono">ĐẠT CẤP TỐI ĐA</span>
+          </div>
+        </div>
+
+        <!-- 7. Public Sponsor (LOCKED - Not Owned) -->
+        <div class="trophy-item-card is-locked" data-cat="locked" onclick="inspectBadge('sponsor')">
+          <div class="trophy-flat-asset-box">
+            <img src="/badges/github-sponsor.png" alt="Public Sponsor" class="trophy-flat-img locked-img">
+            <span class="status-indicator-tag locked mono"><i class="ph-bold ph-lock-key"></i> CHƯA CÓ</span>
+          </div>
+          <div class="trophy-meta">
+            <h4 class="trophy-name">Public Sponsor</h4>
+            <span class="tier-pill gray mono">Locked Badge</span>
+            <p class="trophy-status-text mono">Tài trợ tác giả mã nguồn mở</p>
+          </div>
+          <div class="trophy-bottom-chip">
+            <span class="badge-chip locked mono">CẦN TÀI TRỢ GITHUB SPONSORS</span>
+          </div>
+        </div>
+
+        <!-- 8. Heart On Your Sleeve (LOCKED - Not Owned) -->
+        <div class="trophy-item-card is-locked" data-cat="locked" onclick="inspectBadge('heart')">
+          <div class="trophy-flat-asset-box">
+            <img src="/badges/heart-on-your-sleeve.png" alt="Heart On Your Sleeve" class="trophy-flat-img locked-img">
+            <span class="status-indicator-tag locked mono"><i class="ph-bold ph-lock-key"></i> CHƯA CÓ</span>
+          </div>
+          <div class="trophy-meta">
+            <h4 class="trophy-name">Heart On Your Sleeve</h4>
+            <span class="tier-pill gray mono">Locked Badge</span>
+            <p class="trophy-status-text mono">Thả cảm xúc yêu thích (❤️)</p>
+          </div>
+          <div class="trophy-bottom-chip">
+            <span class="badge-chip locked mono">CẦN THẢ TIM REACT TRÊN PR</span>
+          </div>
+        </div>
+
+        <!-- 9. Arctic Code Vault (LOCKED - Historic Archive) -->
+        <div class="trophy-item-card is-locked" data-cat="locked" onclick="inspectBadge('arctic')">
+          <div class="trophy-flat-asset-box">
+            <div class="trophy-flat-placeholder">
+              <i class="ph-duotone ph-snowflake"></i>
+            </div>
+            <span class="status-indicator-tag locked mono"><i class="ph-bold ph-lock-key"></i> CHƯA CÓ</span>
+          </div>
+          <div class="trophy-meta">
+            <h4 class="trophy-name">Arctic Code Vault</h4>
+            <span class="tier-pill gray mono">Historic Archive</span>
+            <p class="trophy-status-text mono">Lưu trữ kho Svalbard Bắc Cực</p>
+          </div>
+          <div class="trophy-bottom-chip">
+            <span class="badge-chip locked mono">SỰ KIỆN LỊCH SỬ 2020</span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- DESKTOP INLINE WORKBENCH INSPECTOR (Flat Clean Design — No 3D Bouncing) -->
+      <div class="desktop-inline-workbench" id="desktop-workbench" style="display: none;">
+        <div class="workbench-card">
+          <div class="workbench-header">
+            <div class="wb-head-left">
+              <i class="ph-duotone ph-cube-transparent wb-icon"></i>
+              <span class="wb-title mono">BADGE SPECIFICATION WORKBENCH</span>
+            </div>
+            <button class="wb-close-btn" onclick="closeDesktopWorkbench()">✕ Đóng</button>
+          </div>
+
+          <div class="workbench-body">
+            <div class="wb-badge-flat-col">
+              <img id="wb-badge-img" src="/badges/pull-shark-gold.png" alt="Badge" class="wb-flat-render">
+            </div>
+
+            <div class="wb-details-col">
+              <div class="wb-tags-row">
+                <span class="tier-pill gold mono" id="wb-badge-tier">GOLD TIER x4</span>
+                <span class="wb-verified-tag mono" id="wb-badge-owner-tag"><i class="ph-duotone ph-shield-check"></i> Đang Sở Hữu (Silver x3)</span>
+              </div>
+              <h3 class="wb-badge-name" id="wb-badge-title">Pull Shark</h3>
+              <p class="wb-badge-desc" id="wb-badge-desc">Merge 1,024 Pull Requests để nhận huy hiệu Cá Mập Vàng danh giá nhất GitHub.</p>
+
+              <div class="wb-spec-grid mono">
+                <div class="wb-spec-cell">
+                  <span class="cell-k">TIẾN ĐỘ THỰC TẾ</span>
+                  <strong class="cell-v" id="wb-spec-status">128 / 1,024 PRs (12.5%)</strong>
+                </div>
+                <div class="wb-spec-cell">
+                  <span class="cell-k">VECTOR THỰC THI</span>
+                  <span class="cell-v" id="wb-spec-vector">REST API Pull Requests</span>
+                </div>
+                <div class="wb-spec-cell">
+                  <span class="cell-k">CƠ CHẾ BYPASS</span>
+                  <span class="cell-v" id="wb-spec-bypass">Dual-Token Cross-Repo</span>
+                </div>
+              </div>
+
+              <div class="wb-action-row">
+                <button class="btn-wb-action mono" onclick="activateBadgeAction()">
+                  <i class="ph-bold ph-play"></i>
+                  <span id="wb-action-text">KÍCH HOẠT VECTOR NÀY NGAY</span>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </section>
+
+  </main>
+
+  <!-- ====================================================================
+       TYPEFORM-STYLE ONBOARDING SETUP WIZARD (Conversational Flow)
+       ==================================================================== -->
+  <!-- ====================================================================
+       TYPEFORM-STYLE ONBOARDING SETUP WIZARD (Conversational Flow)
+       ==================================================================== -->
+  <div class="typeform-overlay" id="wizard-overlay" style="display: none;">
+    <div class="typeform-container">
+      
+      <!-- Top Bar: Brand, Progress Bar, Close -->
+      <div class="tf-top-bar">
+        <div class="tf-brand mono">GitTrophy Setup Wizard</div>
+        <div class="tf-progress-track">
+          <div class="tf-progress-bar" id="tf-progress-fill" style="width: 25%;"></div>
+        </div>
+        <button class="tf-exit-btn mono" onclick="closeWizard()" title="Đóng cài đặt">
+          <i class="ph-bold ph-x"></i> ESC
+        </button>
+      </div>
+
+      <div class="tf-slides-wrap">
+        
+        <!-- Step 1: Target GitHub Token -->
+        <div class="tf-step-slide active" data-step="1" id="tf-step-1">
+          <span class="tf-step-num mono">01 &rarr; TÀI KHOẢN CHÍNH</span>
+          <h2 class="tf-question">Dán Personal Access Token của tài khoản GitHub chính:</h2>
+          <p class="tf-explainer">Token này sẽ nhận các huy hiệu danh giá như Pull Shark, Galaxy Brain. Cần quyền: repo, write:discussion, workflow.</p>
+          <div class="tf-input-group">
+            <input type="password" id="tf-input-target" placeholder="ghp_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" class="tf-field mono" onkeydown="handleWizardKeyDown(event, 1)">
+          </div>
+          <div class="tf-controls-row">
+            <button class="btn-tf-next mono" onclick="advanceWizard(1)">
+              <span>TIẾP TỤC</span>
+              <kbd class="tf-kbd mono">Enter &#x21B5;</kbd>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 2: Helper Clone Token -->
+        <div class="tf-step-slide" data-step="2" id="tf-step-2">
+          <span class="tf-step-num mono">02 &rarr; NICK PHỤ HỖ TRỢ</span>
+          <h2 class="tf-question">Token các nick phụ (cách nhau bằng dấu |):</h2>
+          <p class="tf-explainer">Dùng nick clone tạo PR giúp né anti-farming. Tùy chọn nhiều nick: token1 | token2 | token3. Bỏ trống nếu không có.</p>
+          <div class="tf-input-group">
+            <input type="text" id="tf-input-helper" placeholder="ghp_clone1|ghp_clone2|ghp_clone3 (Bỏ trống nếu không có)" class="tf-field mono" onkeydown="handleWizardKeyDown(event, 2)">
+          </div>
+          <div class="tf-controls-row">
+            <button class="btn-tf-skip mono" onclick="advanceWizard(2, true)">BỎ QUA</button>
+            <button class="btn-tf-next mono" onclick="advanceWizard(2)">
+              <span>TIẾP TỤC</span>
+              <kbd class="tf-kbd mono">Enter &#x21B5;</kbd>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 3: Target Repository -->
+        <div class="tf-step-slide" data-step="3" id="tf-step-3">
+          <span class="tf-step-num mono">03 &rarr; REPOSITORY FARMING</span>
+          <h2 class="tf-question">Tên Repository dùng để farm:</h2>
+          <p class="tf-explainer">Kho lưu trữ nơi engine tự động tạo và auto-merge PRs. Engine sẽ tự động tạo nếu chưa có.</p>
+          <div class="tf-input-group">
+            <input type="text" id="tf-input-repo" value="github-trophy-vault" class="tf-field mono" onkeydown="handleWizardKeyDown(event, 3)">
+          </div>
+          <div class="tf-controls-row">
+            <button class="btn-tf-next mono" onclick="advanceWizard(3)">
+              <span>TIẾP TỤC</span>
+              <kbd class="tf-kbd mono">Enter &#x21B5;</kbd>
+            </button>
+          </div>
+        </div>
+
+        <!-- Step 4: Review & Finish -->
+        <div class="tf-step-slide" data-step="4" id="tf-step-4">
+          <span class="tf-step-num mono">04 &rarr; XÁC NHẬN</span>
+          <h2 class="tf-question">Sẵn sàng kích hoạt GitTrophy Sentinel?</h2>
+          <p class="tf-explainer">Thông tin sẽ được ghi trực tiếp vào file .env trên máy. Bạn có thể thay đổi bất cứ lúc nào.</p>
+          <div class="tf-summary-card mono">
+            <div class="tf-sum-row">
+              <span>Tài khoản chính:</span>
+              <strong id="tf-sum-target">ghp_••••••••</strong>
+            </div>
+            <div class="tf-sum-row">
+              <span>Nick phụ luân chuyển:</span>
+              <strong id="tf-sum-helper">Chưa thiết lập</strong>
+            </div>
+            <div class="tf-sum-row">
+              <span>Kho lưu trữ:</span>
+              <strong id="tf-sum-repo">github-trophy-vault</strong>
+            </div>
+          </div>
+          <div class="tf-controls-row">
+            <button class="btn-tf-finish mono" onclick="finishWizard()">
+              <i class="ph-bold ph-lightning"></i>
+              <span>LƯU VÀO .ENV &amp; BẮT ĐẦU</span>
+            </button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MOBILE ONLY: iOS BOTTOM SHEET (Active only on <= 768px screens)
+       ==================================================================== -->
+  <div class="mobile-sheet-backdrop" id="mobile-badge-sheet" style="display: none;" onclick="closeMobileBadgeSheet()">
+    <div class="ios-bottom-sheet" onclick="event.stopPropagation()">
+      <div class="sheet-drag-handle"></div>
+
+      <div class="sheet-badge-body">
+        <div class="sheet-img-box">
+          <img id="mobile-sheet-img" src="/badges/pull-shark-gold.png" alt="Badge" class="sheet-badge-asset">
+        </div>
+
+        <div class="sheet-badge-texts">
+          <span class="tier-pill gold mono" id="mobile-sheet-tier">GOLD TIER x4</span>
+          <h3 class="sheet-title" id="mobile-sheet-title">Pull Shark</h3>
+          <p class="sheet-desc" id="mobile-sheet-desc">Merge 1,024 Pull Requests để nhận Cá Mập Vàng danh giá.</p>
+          
+          <div class="sheet-specs-box mono">
+            <div class="sheet-spec-row">
+              <span>Trạng thái:</span>
+              <strong id="mobile-sheet-status">128/1,024 PRs</strong>
+            </div>
+            <div class="sheet-spec-row">
+              <span>Vector:</span>
+              <span id="mobile-sheet-vector">REST API Pull Requests</span>
+            </div>
+          </div>
+
+          <button class="btn-sheet-trigger mono" onclick="activateBadgeAction(); closeMobileBadgeSheet();">
+            <i class="ph-bold ph-play"></i>
+            <span>KÍCH HOẠT VECTOR NÀY</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ====================================================================
+       MODAL CONFIG DIALOG (Direct .env Editor)
+       ==================================================================== -->
+  <div class="config-modal-backdrop" id="config-modal" style="display: none;" onclick="handleModalBackdropClick(event)">
+    <div class="config-modal-dialog">
+      <div class="cmodal-head">
+        <div class="cmodal-head-left">
+          <i class="ph-duotone ph-sliders cmodal-icon"></i>
+          <h3 class="cmodal-title">Cấu Hình Biến Môi Trường (.env)</h3>
+        </div>
+        <button class="cmodal-close" onclick="closeConfigModal()">✕</button>
+      </div>
+
+      <div class="cmodal-body">
+        <div class="form-field">
+          <label class="field-lbl mono">TARGET_GITHUB_TOKEN (Tài khoản chính):</label>
+          <div class="field-input-wrap">
+            <i class="ph-duotone ph-key input-icon"></i>
+            <input type="password" id="cfg-target-token" placeholder="ghp_xxxxxxxxxxxxxxxxxxxx" class="field-inp mono">
+          </div>
+          <span class="field-hint mono">Cần scopes: <code>repo</code>, <code>write:discussion</code>, <code>workflow</code></span>
+        </div>
+
+        <div class="form-field">
+          <label class="field-lbl mono">HELPER_GITHUB_TOKEN (Nick Phụ - Cách nhau bằng dấu |):</label>
+          <div class="field-input-wrap">
+            <i class="ph-duotone ph-users input-icon"></i>
+            <input type="text" id="cfg-helper-token" placeholder="ghp_nick1|ghp_nick2|ghp_nick3" class="field-inp mono">
+          </div>
+          <span class="field-hint mono">Tùy chọn: Nhập 1 hoặc nhiều token clone cách nhau bằng ký tự <code>|</code> để luân chuyển PRs, bypass bộ lọc spam.</span>
+        </div>
+
+        <div class="form-field">
+          <label class="field-lbl mono">TARGET_REPO (Tên kho lưu trữ):</label>
+          <div class="field-input-wrap">
+            <i class="ph-duotone ph-git-branch input-icon"></i>
+            <input type="text" id="cfg-repo-name" placeholder="github-trophy-vault" class="field-inp mono">
+          </div>
+        </div>
+      </div>
+
+      <div class="cmodal-foot">
+        <button class="btn-cmodal-cancel mono" onclick="closeConfigModal()">HỦY</button>
+        <button class="btn-cmodal-save mono" onclick="saveConfig()">LƯU VÀO .ENV</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Mobile Bottom Dock Navigation -->
+  <nav class="mobile-bottom-dock">
+    <button class="dock-tab active" onclick="scrollToSection('overview')">
+      <i class="ph-duotone ph-house"></i>
+      <span>Tổng quan</span>
+    </button>
+    <button class="dock-tab" onclick="scrollToSection('cockpit')">
+      <i class="ph-duotone ph-crosshair"></i>
+      <span>Cockpit</span>
+    </button>
+    <button class="dock-tab" onclick="scrollToSection('terminal-section')">
+      <i class="ph-duotone ph-terminal"></i>
+      <span>Logs</span>
+    </button>
+    <button class="dock-tab" onclick="scrollToSection('badges-showcase')">
+      <i class="ph-duotone ph-trophy"></i>
+      <span>Huy hiệu</span>
+    </button>
+    <button class="dock-tab" onclick="openConfigModal()">
+      <i class="ph-duotone ph-gear"></i>
+      <span>Cài đặt</span>
+    </button>
+  </nav>
+
+  <!-- SONNER STACKED TOASTER CONTAINER -->
+  <div class="sonner-toaster" id="sonner-toaster"></div>
+
+  <!-- ====================================================================
+       MINIMAL FOOTER
+       ==================================================================== -->
+  <footer class="minimal-footer">
+    <p class="footer-credit mono">make with tanbaycu</p>
+  </footer>
+
+  <script src="app.js?v=2.9.2"></script>
+</body>
+</html>
